@@ -51,7 +51,24 @@ else
   echo "zsh-autosuggestions is already installed."
 fi
 
-# 4. Stow configurations
+# 4. System Configurations (Autologin)
+echo "-> Configuring TTY autologin and disabling LightDM..."
+
+# We use a template file stored in the dotfiles/system directory
+OVERRIDE_DIR="/etc/systemd/system/getty@tty1.service.d"
+sudo mkdir -p "$OVERRIDE_DIR"
+
+# Move to the script's directory so we can find the system/ folder
+cd "$(dirname "$0")"
+
+# Copy the template and use sed to inject the current username
+sudo cp system/getty-override.conf "$OVERRIDE_DIR/override.conf"
+sudo sed -i "s/AUTOLOGIN_USER/$USER/g" "$OVERRIDE_DIR/override.conf"
+
+# Disable LightDM (we append || true so the script doesn't crash if LightDM is already uninstalled)
+sudo systemctl disable lightdm.service || true
+
+# 5. Stow configurations
 echo "-> Stowing dotfiles..."
 
 # Oh My Zsh creates a default .zshrc on install which will block stow. Back it up if it's a real file (not our symlink).

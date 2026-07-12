@@ -12,3 +12,8 @@ plugins=(git sudo zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
 
+
+# Autostart X11/i3 on login on TTY1
+if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+  exec startx
+fi
