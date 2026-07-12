@@ -17,6 +17,12 @@ echo "Applying gaps: Inner = $INNER, Outer = $OUTER"
 i3-msg "gaps inner all set $INNER" > /dev/null
 i3-msg "gaps outer all set $OUTER" > /dev/null
 
+# 1.5 Enforce Uniformity Rule: If gaps are 0, force corner radius to 0
+if [ "$INNER" -eq 0 ]; then
+    echo "⚠️ Uniformity Rule: Gaps are 0, automatically disabling rounded corners..."
+    "$(dirname "$0")/set_radius.sh" 0
+fi
+
 # 2. Update the config file so the change survives a reboot
 # We use readlink to find the real file, otherwise sed destroys the Stow symlink!
 CONFIG_FILE=$(readlink -f "$HOME/.config/i3/config")
