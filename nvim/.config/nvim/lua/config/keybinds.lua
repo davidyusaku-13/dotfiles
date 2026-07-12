@@ -18,6 +18,8 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- sometimes in insert mode, control-c doesn't exactly work like escape
 vim.keymap.set("i", "<C-c>", "<Esc>")
+vim.keymap.set("i", "jk", "<Esc>", { desc = "Exit insert mode" })
+vim.keymap.set("i", "kj", "<Esc>", { desc = "Exit insert mode" })
 
 -- add binds for Control J/K to scroll thru quickfix list
 vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz")
