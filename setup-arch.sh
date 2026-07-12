@@ -13,11 +13,23 @@ sudo pacman -S --needed --noconfirm \
   brightnessctl zsh stow neovim ripgrep fd base-devel npm git curl
 
 # 2. Check for yay and install AUR packages
-echo "-> Installing AUR packages (Fonts)..."
 if ! command -v yay &> /dev/null; then
-  echo "ERROR: 'yay' is not installed. Please install yay first to get the necessary fonts."
-  exit 1
+  echo "-> 'yay' not found. Installing yay from the AUR..."
+  TEMP_YAY=$(mktemp -d)
+  git clone https://aur.archlinux.org/yay.git "$TEMP_YAY"
+  
+  # Navigate to the temp dir and run makepkg. 
+  # (Note: makepkg will fail if this script is run as root)
+  pushd "$TEMP_YAY" > /dev/null
+  makepkg -si --noconfirm
+  popd > /dev/null
+  
+  rm -rf "$TEMP_YAY"
+else
+  echo "-> 'yay' is already installed. Continuing..."
 fi
+
+echo "-> Installing AUR packages (Fonts)..."
 
 yay -S --needed --noconfirm \
   ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd
