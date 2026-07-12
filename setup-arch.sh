@@ -60,6 +60,14 @@ if [ -f "$HOME/.zshrc" ] && [ ! -L "$HOME/.zshrc" ]; then
   mv "$HOME/.zshrc" "$HOME/.zshrc.backup"
 fi
 
+# Back up existing .config folders so stow doesn't fail
+for app in i3 nvim polybar picom rofi alacritty; do
+  if [ -e "$HOME/.config/$app" ] && [ ! -L "$HOME/.config/$app" ]; then
+    echo "Backing up existing ~/.config/$app to ~/.config/${app}.backup"
+    mv "$HOME/.config/$app" "$HOME/.config/${app}.backup"
+  fi
+done
+
 # Move to the directory the script is in (so stow runs from the dotfiles root)
 cd "$(dirname "$0")"
 
