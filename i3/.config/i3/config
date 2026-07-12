@@ -19,8 +19,8 @@
 for_window [class="^.*"] border pixel 0
 
 # Set inner and outer gaps
-gaps inner 10
-gaps outer 5
+gaps inner 4
+gaps outer 2
 
 # Optional: Only show gaps if there is more than 1 window open
 smart_gaps on
