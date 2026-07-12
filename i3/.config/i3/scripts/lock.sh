@@ -4,12 +4,13 @@
 LOCK_ARGS="-c 1E1E2E"
 
 if [ -f "$HOME/.fehbg" ]; then
-    # feh saves the last wallpaper in ~/.fehbg wrapped in single quotes
-    # Extract the file path from between those quotes
-    IMG=$(grep -oP "'\K[^']+" "$HOME/.fehbg" | head -1)
+    # Awk reliably grabs the string between the single quotes
+    IMG=$(awk -F"'" '/feh/ {print $2}' "$HOME/.fehbg" | head -1)
     
-    # Vanilla i3lock ONLY supports .png files. 
-    if [ -f "$IMG" ]; then
+    # Expand tilde (~) to full home path just in case
+    IMG="${IMG/#\~/$HOME}"
+    
+    if [ -n "$IMG" ] && [ -f "$IMG" ]; then
         if [[ "$IMG" == *.png ]]; then
             LOCK_ARGS="-i $IMG"
         elif command -v convert &> /dev/null; then
@@ -19,7 +20,12 @@ if [ -f "$HOME/.fehbg" ]; then
                 convert "$IMG" "$CACHE_IMG"
             fi
             LOCK_ARGS="-i $CACHE_IMG"
+        else
+            # If convert doesn't exist, send a desktop notification to warn the user
+            notify-send "i3lock Fallback" "ImageMagick is missing. Please run: sudo pacman -S imagemagick"
         fi
+    else
+        notify-send "i3lock Error" "Could not find image at path: $IMG"
     fi
 fi
 
