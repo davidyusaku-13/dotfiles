@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# Default fallback color (Catppuccin Mocha Base) in case the image isn't a PNG
-LOCK_ARGS="-c 1E1E2E"
+# Catppuccin Mocha Colors (RRGGBBAA format for i3lock-color)
+BASE="1e1e2eff"
+TEXT="cdd6f4ff"
+MAUVE="cba6f7ff"
+RED="f38ba8ff"
+TRANSPARENT="00000000"
+
+LOCK_ARGS="--color=$BASE"
 
 if [ -f "$HOME/.fehbg" ]; then
     # Awk reliably grabs the string between the single quotes
@@ -10,27 +16,33 @@ if [ -f "$HOME/.fehbg" ]; then
     # Expand tilde (~) to full home path just in case
     IMG="${IMG/#\~/$HOME}"
     
+    # i3lock-color natively supports JPEGs and scaling!
     if [ -n "$IMG" ] && [ -f "$IMG" ]; then
-        if [[ "$IMG" == *.png ]]; then
-            LOCK_ARGS="-i $IMG"
-        elif command -v convert &> /dev/null; then
-            # It's a JPG/WEBP. Convert it, but cache it so locking is instant next time.
-            # Generate a unique cache filename based on the image path
-            IMG_HASH=$(echo -n "$IMG" | md5sum | awk '{print $1}')
-            CACHE_IMG="/tmp/i3lock_${IMG_HASH}.png"
-            
-            if [ ! -f "$CACHE_IMG" ]; then
-                convert "$IMG" "$CACHE_IMG"
-            fi
-            LOCK_ARGS="-i $CACHE_IMG"
-        else
-            # If convert doesn't exist, send a desktop notification to warn the user
-            notify-send "i3lock Fallback" "ImageMagick is missing. Please run: sudo pacman -S imagemagick"
-        fi
-    else
-        notify-send "i3lock Error" "Could not find image at path: $IMG"
+        LOCK_ARGS="-i $IMG --fill"
     fi
 fi
 
-# Execute i3lock with the image (or fallback color)
-i3lock $LOCK_ARGS --nofork
+# Execute i3lock-color with the image and Catppuccin styling
+i3lock $LOCK_ARGS \
+    --nofork \
+    --ignore-empty-password \
+    --indicator \
+    --clock \
+    --radius=120 \
+    --ring-width=8 \
+    --inside-color=$TRANSPARENT \
+    --ring-color=$MAUVE \
+    --insidever-color=$TRANSPARENT \
+    --ringver-color=$TEXT \
+    --insidewrong-color=$TRANSPARENT \
+    --ringwrong-color=$RED \
+    --line-color=$TRANSPARENT \
+    --keyhl-color=$MAUVE \
+    --bshl-color=$RED \
+    --separator-color=$TRANSPARENT \
+    --verif-color=$TEXT \
+    --wrong-color=$RED \
+    --time-color=$TEXT \
+    --date-color=$TEXT \
+    --time-str="%H:%M" \
+    --date-str="%A, %B %d"

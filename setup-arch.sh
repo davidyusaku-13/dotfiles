@@ -12,7 +12,7 @@ echo "==========================================="
 echo "-> Installing official packages..."
 sudo pacman -S --needed --noconfirm \
   i3-wm polybar picom rofi alacritty feh maim xclip xdotool \
-  dex xss-lock i3lock network-manager-applet libpulse \
+  dex xss-lock network-manager-applet libpulse \
   brightnessctl zsh stow neovim ripgrep fd base-devel npm git curl imagemagick
 
 # 2. Check for yay and install AUR packages
@@ -35,7 +35,7 @@ fi
 echo "-> Installing AUR packages (Fonts)..."
 
 yay -S --needed --noconfirm \
-  ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd
+  ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd i3lock-color
 
 # 3. Oh My Zsh and plugins
 echo "-> Setting up Zsh and Oh My Zsh..."
