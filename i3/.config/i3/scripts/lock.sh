@@ -16,9 +16,21 @@ if [ -f "$HOME/.fehbg" ]; then
     # Expand tilde (~) to full home path just in case
     IMG="${IMG/#\~/$HOME}"
     
-    # i3lock-color natively supports JPEGs and scaling!
     if [ -n "$IMG" ] && [ -f "$IMG" ]; then
-        LOCK_ARGS="-i $IMG --fill"
+        # Fetch current screen resolution (fallback to 1920x1080 if it fails)
+        RES=$(xrandr | grep '\*' | awk '{print $1}' | head -n 1)
+        RES=${RES:-1920x1080}
+        
+        # Hash the image path + resolution to create a unique cache file
+        IMG_HASH=$(echo -n "$IMG$RES" | md5sum | awk '{print $1}')
+        CACHE_IMG="/tmp/i3lock_${IMG_HASH}.png"
+        
+        # If cache doesn't exist, use ImageMagick to perfectly scale/crop it once
+        if [ ! -f "$CACHE_IMG" ]; then
+            convert "$IMG" -resize "${RES}^" -gravity center -extent "${RES}" "$CACHE_IMG"
+        fi
+        
+        LOCK_ARGS="-i $CACHE_IMG"
     fi
 fi
 
