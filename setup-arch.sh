@@ -70,6 +70,10 @@ sudo systemctl daemon-reload
 # Disable LightDM (we append || true so the script doesn't crash if LightDM is already uninstalled)
 sudo systemctl disable lightdm.service || true
 
+# Enable NetworkManager so nmtui and nm-applet work instantly
+echo "-> Enabling NetworkManager..."
+sudo systemctl enable --now NetworkManager.service || true
+
 # 5. Stow configurations
 echo "-> Stowing dotfiles..."
 
