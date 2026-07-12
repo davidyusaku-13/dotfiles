@@ -18,3 +18,7 @@ source $ZSH/oh-my-zsh.sh
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
   exec startx
 fi
+
+
+# Display system info on terminal startup
+afetch

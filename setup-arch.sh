@@ -34,9 +34,8 @@ else
 fi
 
 echo "-> Installing AUR packages (Fonts)..."
-
 yay -S --needed --noconfirm \
-  ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd i3lock-color
+  ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd i3lock-color afetch
 
 # 3. Oh My Zsh and plugins
 echo "-> Setting up Zsh and Oh My Zsh..."
