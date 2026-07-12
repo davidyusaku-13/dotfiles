@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Ensure we are executing from the dotfiles directory
+cd "$(dirname "$0")"
+
 echo "==========================================="
 echo "   Starting Arch Linux Dotfiles Setup      "
 echo "==========================================="
@@ -58,12 +61,11 @@ echo "-> Configuring TTY autologin and disabling LightDM..."
 OVERRIDE_DIR="/etc/systemd/system/getty@tty1.service.d"
 sudo mkdir -p "$OVERRIDE_DIR"
 
-# Move to the script's directory so we can find the system/ folder
-cd "$(dirname "$0")"
 
 # Copy the template and use sed to inject the current username
 sudo cp system/getty-override.conf "$OVERRIDE_DIR/override.conf"
 sudo sed -i "s/AUTOLOGIN_USER/$USER/g" "$OVERRIDE_DIR/override.conf"
+sudo systemctl daemon-reload
 
 # Disable LightDM (we append || true so the script doesn't crash if LightDM is already uninstalled)
 sudo systemctl disable lightdm.service || true
@@ -78,6 +80,9 @@ if [ -f "$HOME/.zshrc" ] && [ ! -L "$HOME/.zshrc" ]; then
 fi
 
 
+
+# Ensure .config exists so stow doesn't symlink the entire directory
+mkdir -p "$HOME/.config"
 # Back up default .xinitrc if it exists
 if [ -f "$HOME/.xinitrc" ] && [ ! -L "$HOME/.xinitrc" ]; then
   echo "Backing up default ~/.xinitrc to ~/.xinitrc.backup"
@@ -91,11 +96,9 @@ for app in i3 nvim polybar picom rofi alacritty; do
   fi
 done
 
-# Move to the directory the script is in (so stow runs from the dotfiles root)
-cd "$(dirname "$0")"
 
-# Execute stow on all directories
-stow i3 nvim polybar picom rofi alacritty zsh x11
+# Execute stow on all directories (-R ensures it cleans up and restows safely on multiple runs)
+stow -R i3 nvim polybar picom rofi alacritty zsh x11
 
 echo "==========================================="
 echo "   Setup Complete!                         "
