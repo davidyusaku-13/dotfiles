@@ -15,6 +15,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Custom Dotfiles Aliases
 alias setgaps="~/.config/i3/scripts/set_gaps.sh"
+alias setradius="~/.config/i3/scripts/set_radius.sh"
 
 # Autostart X11/i3 on login on TTY1
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
