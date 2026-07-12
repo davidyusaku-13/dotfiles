@@ -9,9 +9,17 @@ if [ -f "$HOME/.fehbg" ]; then
     IMG=$(grep -oP "'\K[^']+" "$HOME/.fehbg" | head -1)
     
     # Vanilla i3lock ONLY supports .png files. 
-    # If we pass a .jpg, it will crash.
-    if [ -f "$IMG" ] && [[ "$IMG" == *.png ]]; then
-        LOCK_ARGS="-i $IMG"
+    if [ -f "$IMG" ]; then
+        if [[ "$IMG" == *.png ]]; then
+            LOCK_ARGS="-i $IMG"
+        elif command -v convert &> /dev/null; then
+            # It's a JPG/WEBP. Convert it, but cache it so locking is instant next time.
+            CACHE_IMG="/tmp/i3lock_bg.png"
+            if [ ! -f "$CACHE_IMG" ] || [ "$IMG" -nt "$CACHE_IMG" ]; then
+                convert "$IMG" "$CACHE_IMG"
+            fi
+            LOCK_ARGS="-i $CACHE_IMG"
+        fi
     fi
 fi
 

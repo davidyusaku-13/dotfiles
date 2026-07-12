@@ -13,7 +13,7 @@ echo "-> Installing official packages..."
 sudo pacman -S --needed --noconfirm \
   i3-wm polybar picom rofi alacritty feh maim xclip xdotool \
   dex xss-lock i3lock network-manager-applet libpulse \
-  brightnessctl zsh stow neovim ripgrep fd base-devel npm git curl
+  brightnessctl zsh stow neovim ripgrep fd base-devel npm git curl imagemagick
 
 # 2. Check for yay and install AUR packages
 if ! command -v yay &> /dev/null; then
