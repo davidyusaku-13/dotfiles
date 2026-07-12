@@ -55,7 +55,7 @@ else
 fi
 
 # 4. System Configurations (Autologin)
-echo "-> Configuring TTY autologin and disabling LightDM..."
+echo "-> Configuring TTY autologin, Touchpad, and disabling LightDM..."
 
 # We use a template file stored in the dotfiles/system directory
 OVERRIDE_DIR="/etc/systemd/system/getty@tty1.service.d"
@@ -66,6 +66,10 @@ sudo mkdir -p "$OVERRIDE_DIR"
 sudo cp system/getty-override.conf "$OVERRIDE_DIR/override.conf"
 sudo sed -i "s/AUTOLOGIN_USER/$USER/g" "$OVERRIDE_DIR/override.conf"
 sudo systemctl daemon-reload
+
+# Enable tap-to-click for touchpads
+sudo mkdir -p /etc/X11/xorg.conf.d
+sudo cp system/30-touchpad.conf /etc/X11/xorg.conf.d/30-touchpad.conf
 
 # Disable LightDM (we append || true so the script doesn't crash if LightDM is already uninstalled)
 sudo systemctl disable lightdm.service || true
