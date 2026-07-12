@@ -1,0 +1,29 @@
+[global]
+frame_color = "#89B4FA"
+separator_color = "#89B4FA"
+width = 300
+height = 300
+offset = 15x50
+origin = top-right
+font = MesloLGS Nerd Font Mono 10
+corner_radius = 12
+padding = 12
+horizontal_padding = 12
+frame_width = 2
+separator_height = 2
+
+[urgency_low]
+background = "#1E1E2E"
+foreground = "#CDD6F4"
+timeout = 3
+
+[urgency_normal]
+background = "#1E1E2E"
+foreground = "#CDD6F4"
+timeout = 5
+
+[urgency_critical]
+background = "#1E1E2E"
+foreground = "#CDD6F4"
+frame_color = "#F38BA8"
+timeout = 0

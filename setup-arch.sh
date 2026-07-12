@@ -13,7 +13,8 @@ echo "-> Installing official packages..."
 sudo pacman -S --needed --noconfirm \
   i3-wm polybar picom rofi alacritty feh maim xclip xdotool \
   dex xss-lock network-manager-applet libpulse \
-  brightnessctl zsh stow neovim ripgrep fd base-devel npm git curl imagemagick
+  brightnessctl zsh stow neovim ripgrep fd base-devel npm git curl imagemagick \
+  dunst clipmenu playerctl udiskie
 
 # 2. Check for yay and install AUR packages
 if ! command -v yay &> /dev/null; then
@@ -106,7 +107,7 @@ done
 
 
 # Execute stow on all directories (-R ensures it cleans up and restows safely on multiple runs)
-stow -R i3 nvim polybar picom rofi alacritty zsh x11
+stow -R i3 nvim polybar picom rofi alacritty zsh x11 dunst
 
 echo "==========================================="
 echo "   Setup Complete!                         "
