@@ -15,8 +15,11 @@ if [ -f "$HOME/.fehbg" ]; then
             LOCK_ARGS="-i $IMG"
         elif command -v convert &> /dev/null; then
             # It's a JPG/WEBP. Convert it, but cache it so locking is instant next time.
-            CACHE_IMG="/tmp/i3lock_bg.png"
-            if [ ! -f "$CACHE_IMG" ] || [ "$IMG" -nt "$CACHE_IMG" ]; then
+            # Generate a unique cache filename based on the image path
+            IMG_HASH=$(echo -n "$IMG" | md5sum | awk '{print $1}')
+            CACHE_IMG="/tmp/i3lock_${IMG_HASH}.png"
+            
+            if [ ! -f "$CACHE_IMG" ]; then
                 convert "$IMG" "$CACHE_IMG"
             fi
             LOCK_ARGS="-i $CACHE_IMG"
