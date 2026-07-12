@@ -77,6 +77,12 @@ if [ -f "$HOME/.zshrc" ] && [ ! -L "$HOME/.zshrc" ]; then
   mv "$HOME/.zshrc" "$HOME/.zshrc.backup"
 fi
 
+
+# Back up default .xinitrc if it exists
+if [ -f "$HOME/.xinitrc" ] && [ ! -L "$HOME/.xinitrc" ]; then
+  echo "Backing up default ~/.xinitrc to ~/.xinitrc.backup"
+  mv "$HOME/.xinitrc" "$HOME/.xinitrc.backup"
+fi
 # Back up existing .config folders so stow doesn't fail
 for app in i3 nvim polybar picom rofi alacritty; do
   if [ -e "$HOME/.config/$app" ] && [ ! -L "$HOME/.config/$app" ]; then
@@ -89,7 +95,7 @@ done
 cd "$(dirname "$0")"
 
 # Execute stow on all directories
-stow i3 nvim polybar picom rofi alacritty zsh
+stow i3 nvim polybar picom rofi alacritty zsh x11
 
 echo "==========================================="
 echo "   Setup Complete!                         "
