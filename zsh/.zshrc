@@ -12,15 +12,6 @@ plugins=(git sudo zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
 
-# Aliases from NixOS config
-alias btw="echo i use nixos, btw"
-alias sr="sudo reboot"
-alias gp="git pull"
-alias gf="git fetch"
-alias gs="git status"
-
-# Note: The NixOS rebuild alias was left here for reference if you plan to use this on NixOS
-# alias rb="sudo nixos-rebuild switch --flake ~/nixos-dotfiles#nixos-btw"
 
 # Autostart X11/i3 on login (Adapted from the NixOS Hyprland snippet)
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
