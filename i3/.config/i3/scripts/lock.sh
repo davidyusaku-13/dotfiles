@@ -5,6 +5,7 @@ BASE="1e1e2eff"
 TEXT="cdd6f4ff"
 MAUVE="cba6f7ff"
 RED="f38ba8ff"
+GREEN="a6e3a1ff"
 TRANSPARENT="00000000"
 
 LOCK_ARGS="--color=$BASE"
@@ -49,7 +50,7 @@ i3lock $LOCK_ARGS \
     --insidewrong-color=$TRANSPARENT \
     --ringwrong-color=$RED \
     --line-color=$TRANSPARENT \
-    --keyhl-color=$MAUVE \
+    --keyhl-color=$GREEN \
     --bshl-color=$RED \
     --separator-color=$TRANSPARENT \
     --verif-color=$TEXT \
