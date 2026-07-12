@@ -5,17 +5,12 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 
 # Which plugins would you like to load?
-plugins=(git sudo)
+# Note: For zsh-autosuggestions, you must first run:
+# git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+plugins=(git sudo zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
-# Enable zsh-autosuggestions
-# (Note: You may need to clone zsh-autosuggestions into ~/.zsh/ or use your distro's package manager)
-if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-elif [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
 
 # Aliases from NixOS config
 alias btw="echo i use nixos, btw"
