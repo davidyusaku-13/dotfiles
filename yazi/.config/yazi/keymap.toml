@@ -1,0 +1,28 @@
+[open]
+enter = "open"
+
+[quit]
+q = "quit"
+Q = "quit"
+
+[arrow]
+k = "arrow -1"
+j = "arrow 1"
+
+[close]
+Esc = "escape"
+
+[search]
+/ = "search"
+n = "search_next"
+N = "search_prev"
+
+[tasks]
+t = "tasks_show"
+
+[selection]
+space = "toggle"
+v = "toggle"
+
+[parent]
+h = "leave"
