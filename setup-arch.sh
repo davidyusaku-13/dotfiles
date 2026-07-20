@@ -101,6 +101,9 @@ done
 # Execute stow on all directories (-R ensures it cleans up and restows safely on multiple runs)
 stow -R i3 nvim polybar picom rofi alacritty zsh x11 dunst lazygit bat gtk yazi btop
 
+# Rebuild bat cache for the new theme
+bat cache --build || true
+
 echo "==========================================="
 echo "   Setup Complete!                         "
 echo "==========================================="
