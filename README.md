@@ -22,7 +22,7 @@ These are actively called by shortcuts inside `i3/config`:
 
 - **`maim`**, **`xclip`**, **`xdotool`**: Used together for the screenshot keybinds (`Print` / `Ctrl+Print`).
 - **`dex`**: Used to execute autostart (`.desktop`) files on login.
-- **`xss-lock`**, **`i3lock`**: Used for screen locking.
+- **`xss-lock`**, **`i3lock-color`**: Used for screen locking.
 - **`network-manager-applet`** (`nm-applet`): The network tray icon.
 - **`libpulse`** (provides `pactl`): Used to control audio volume.
 - **`brightnessctl`**: Used to control laptop screen brightness.
@@ -62,10 +62,10 @@ You can install almost everything in one go:
 
 ```bash
 # 1. Install official repository packages
-sudo pacman -S i3-wm polybar picom rofi alacritty feh maim xclip xdotool dex xss-lock i3lock network-manager-applet libpulse brightnessctl zsh stow neovim ripgrep fd base-devel npm
+sudo pacman -S i3-wm polybar picom rofi alacritty feh maim xclip xdotool dex xss-lock network-manager-applet libpulse brightnessctl zsh stow neovim ripgrep fd base-devel npm
 
 # 2. Install AUR packages (Fonts & specific utilities)
-yay -S ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd zsh-autosuggestions
+yay -S ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd i3lock-color zsh-autosuggestions
 ```
 
 ## How to Apply Configurations

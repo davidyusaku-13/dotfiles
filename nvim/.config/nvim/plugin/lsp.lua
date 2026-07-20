@@ -93,10 +93,7 @@ vim.lsp.config['luals'] = {
             diagnostics = { globals = { 'vim' } },
             workspace = {
                 checkThirdParty = false,
-                library = vim.list_extend(
-                    vim.api.nvim_get_runtime_file('', true),
-                    { '/home/tony/repos/oxwm/templates' }
-                ),
+                library = vim.api.nvim_get_runtime_file('', true),
             },
             telemetry = { enable = false },
         },

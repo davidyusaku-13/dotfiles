@@ -5,7 +5,8 @@ STEP=5
 MAX_VOL=150
 
 # Get current volume
-CURRENT_VOL=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]+(?=%)' | head -n 1)
+CURRENT_VOL=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]+(?=%)' | head -n 1) || CURRENT_VOL=0
+[ -z "$CURRENT_VOL" ] && CURRENT_VOL=0
 
 if [ "$ACTION" == "up" ]; then
     # Calculate what the new volume would be
