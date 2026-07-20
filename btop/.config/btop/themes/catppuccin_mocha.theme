@@ -1,0 +1,17 @@
+# Catppuccin Mocha for btop
+theme[main_bg] = #1e1e2e
+theme[main_fg] = #cdd6f4
+theme[title] = #cba6f7
+theme[hi_fg] = #89b4fa
+theme[selected_bg] = #313244
+theme[selected_fg] = #cdd6f4
+theme[inactive_fg] = #6c7086
+theme[proc_mem] = #a6e3a1
+theme[proc_cpu] = #89b4fa
+theme[core_load] = #f9e2af
+theme[temp] = #f38ba8
+theme[graph_cpu] = #89b4fa
+theme[graph_mem] = #a6e3a1
+theme[graph_net] = #cba6f7
+theme[graph_proc] = #f9e2af
+theme[div_line] = #45475a
