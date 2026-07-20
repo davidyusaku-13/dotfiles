@@ -1,0 +1,101 @@
+format = """\
+[](#f5e0dc)\
+$os\
+$username\
+[](bg:#cba6f7 fg:#181825)\
+$directory\
+[](fg:#cba6f7 bg:#89b4fa)\
+$git_branch\
+$git_status\
+[](fg:#89b4fa bg:#a6e3a1)\
+$nodejs\
+$python\
+$rust\
+$golang\
+[](fg:#a6e3a1 bg:#f9e2af)\
+$docker_context\
+[](fg:#f9e2af bg:#fab387)\
+$time\
+[](fg:#fab387)\
+$line_break\
+$character\
+"""
+
+fill = "$fill"
+
+[character]
+success_symbol = "[❯](#cba6f7)"
+error_symbol = "[❯](#f38ba8)"
+vimcmd_symbol = "[❮](#89b4fa)"
+
+[os]
+disabled = false
+style = "bg:#f5e0dc fg:#181825"
+format = "[ $symbol]($style)"
+
+[os.symbols]
+windows = ""
+macos = ""
+linux = ""
+
+[username]
+show_always = true
+style_user = "bg:#f5e0dc fg:#181825"
+format = "[ $user]($style)"
+
+[directory]
+style = "bg:#cba6f7 fg:#181825"
+format = "[ $path]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = " "
+style = "bg:#89b4fa fg:#181825"
+format = '[ $symbol$branch]($style)'
+
+[git_status]
+style = "bg:#89b4fa fg:#181825"
+format = '[$all_status$ahead_behind]($style)'
+conflicted = "🏳"
+up_to_date = ""
+untracked = " "
+ahead = "⇡\${count}"
+diverged = "⇕⇡\${ahead_count}⇣\${behind_count}"
+behind = "⇣\${count}"
+stashed = " "
+modified = " "
+staged = ""
+renamed = " "
+deleted = " "
+
+[nodejs]
+symbol = ""
+style = "bg:#a6e3a1 fg:#181825"
+format = '[ $symbol( $version)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:#a6e3a1 fg:#181825"
+format = '[ $symbol( $version)]($style)'
+
+[python]
+symbol = ""
+style = "bg:#a6e3a1 fg:#181825"
+format = '[ $symbol( $version)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:#a6e3a1 fg:#181825"
+format = '[ $symbol( $version)]($style)'
+
+[docker_context]
+symbol = ""
+style = "bg:#f9e2af fg:#181825"
+format = '[ $symbol( $context)]($style)'
+
+[time]
+disabled = false
+time_format = "%H:%M"
+style = "bg:#fab387 fg:#181825"
+format = '[  $time]($style)'
