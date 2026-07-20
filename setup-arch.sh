@@ -14,6 +14,7 @@ sudo pacman -S --needed --noconfirm \
   i3-wm polybar picom rofi alacritty feh maim xclip xdotool \
   dex xss-lock network-manager-applet libpulse \
   brightnessctl zsh stow neovim ripgrep fd base-devel npm git curl imagemagick \
+  lazygit bat btop thefuck \
   dunst clipmenu playerctl udiskie
 
 # 2. Check for yay and install AUR packages
@@ -33,25 +34,17 @@ else
   echo "-> 'yay' is already installed. Continuing..."
 fi
 
-echo "-> Installing AUR packages (Fonts)..."
+echo "-> Installing AUR packages..."
 yay -S --needed --noconfirm \
-  ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd i3lock-color afetch
+  ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd i3lock-color afetch \
+  catppuccin-gtk-theme-mocha yazi starship eza
 
-# 3. Oh My Zsh and plugins
-echo "-> Setting up Zsh and Oh My Zsh..."
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  echo "Installing Oh My Zsh (unattended)..."
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+# 3. Install antidote (Zsh plugin manager)
+echo "-> Installing antidote..."
+if [ ! -d "$HOME/.antidote" ]; then
+  git clone --depth 1 https://github.com/mattmc3/antidote.git "$HOME/.antidote"
 else
-  echo "Oh My Zsh is already installed."
-fi
-
-ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
-if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-  echo "Cloning zsh-autosuggestions..."
-  git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
-else
-  echo "zsh-autosuggestions is already installed."
+  echo "antidote is already installed."
 fi
 
 # 4. System Configurations (Autologin)
@@ -97,7 +90,7 @@ if [ -f "$HOME/.xinitrc" ] && [ ! -L "$HOME/.xinitrc" ]; then
   mv "$HOME/.xinitrc" "$HOME/.xinitrc.backup"
 fi
 # Back up existing .config folders so stow doesn't fail
-for app in i3 nvim polybar picom rofi alacritty; do
+for app in i3 nvim polybar picom rofi alacritty lazygit bat gtk yazi btop; do
   if [ -e "$HOME/.config/$app" ] && [ ! -L "$HOME/.config/$app" ]; then
     echo "Backing up existing ~/.config/$app to ~/.config/${app}.backup"
     mv "$HOME/.config/$app" "$HOME/.config/${app}.backup"
@@ -106,7 +99,7 @@ done
 
 
 # Execute stow on all directories (-R ensures it cleans up and restows safely on multiple runs)
-stow -R i3 nvim polybar picom rofi alacritty zsh x11 dunst
+stow -R i3 nvim polybar picom rofi alacritty zsh x11 dunst lazygit bat gtk yazi btop
 
 echo "==========================================="
 echo "   Setup Complete!                         "

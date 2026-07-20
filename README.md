@@ -30,14 +30,13 @@ These are actively called by shortcuts inside `i3/config`:
 ### 3. Terminal & Shell
 
 - **`zsh`**: The shell.
-- **Oh My Zsh**: Run the install script from their website.
-- **`zsh-autosuggestions`**:
-  ```bash
-  # Install via AUR:
-  yay -S zsh-autosuggestions
-  # Or via git clone (as per .zshrc comments):
-  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-  ```
+- **antidote**: Zsh plugin manager (see [mattmc3/antidote](https://github.com/mattmc3/antidote)). Installed automatically by `setup-arch.sh`.
+- **starship**: Cross-shell prompt. Installed via AUR as `starship`.
+- **`bat`**: A `cat` clone with syntax highlighting.
+- **`btop`**: Resource monitor.
+- **`lazygit`**: Terminal UI for git.
+- **`thefuck`**: Corrects mistyped console commands.
+- **`eza`**: Modern `ls` replacement.
 - **`stow`**: GNU Stow, the tool used to actually symlink these folders.
 
 ### 4. Neovim Requirements
@@ -62,10 +61,10 @@ You can install almost everything in one go:
 
 ```bash
 # 1. Install official repository packages
-sudo pacman -S i3-wm polybar picom rofi alacritty feh maim xclip xdotool dex xss-lock network-manager-applet libpulse brightnessctl zsh stow neovim ripgrep fd base-devel npm
+sudo pacman -S i3-wm polybar picom rofi alacritty feh maim xclip xdotool dex xss-lock network-manager-applet libpulse brightnessctl zsh stow neovim ripgrep fd base-devel npm lazygit bat btop thefuck
 
 # 2. Install AUR packages (Fonts & specific utilities)
-yay -S ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd i3lock-color zsh-autosuggestions
+yay -S ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd i3lock-color afetch catppuccin-gtk-theme-mocha yazi starship eza
 ```
 
 ## How to Apply Configurations
@@ -76,7 +75,7 @@ For example:
 
 ```bash
 cd ~/dotfiles
-stow i3 polybar picom rofi alacritty nvim zsh
+stow i3 polybar picom rofi alacritty nvim zsh dunst x11 lazygit bat gtk yazi btop
 ```
 
 _(Remember to backup or remove any existing default configurations at `~/.config/<app>` before stowing!)_
