@@ -21,8 +21,6 @@ $line_break\
 $character\
 """
 
-fill = "$fill"
-
 [character]
 success_symbol = "[❯](#cba6f7)"
 error_symbol = "[❯](#f38ba8)"
@@ -53,11 +51,12 @@ truncation_symbol = "…/"
 symbol = " "
 style = "bg:#89b4fa fg:#181825"
 format = '[ $symbol$branch]($style)'
+truncation_length = 15
 
 [git_status]
 style = "bg:#89b4fa fg:#181825"
 format = '[$all_status$ahead_behind]($style)'
-conflicted = "🏳"
+conflicted = " "
 up_to_date = ""
 untracked = " "
 ahead = "⇡${count}"
@@ -65,7 +64,7 @@ diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 behind = "⇣${count}"
 stashed = " "
 modified = " "
-staged = ""
+staged = " "
 renamed = " "
 deleted = " "
 
