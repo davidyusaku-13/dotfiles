@@ -1,6 +1,7 @@
 # Path to antidote
 source ~/.antidote/antidote.zsh
 antidote load "$HOME/.zsh_plugins.txt"
+autoload -Uz compinit && compinit
 
 # Starship prompt
 eval "$(starship init zsh)"
