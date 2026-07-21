@@ -102,7 +102,9 @@ done
 stow -R i3 nvim polybar picom rofi alacritty zsh x11 dunst lazygit bat gtk yazi btop
 
 # Rebuild bat cache for the new theme
-bat cache --build || true
+if command -v bat &> /dev/null; then
+    bat cache --build
+fi
 
 echo "==========================================="
 echo "   Setup Complete!                         "
