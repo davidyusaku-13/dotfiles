@@ -13,7 +13,7 @@ j = "arrow 1"
 Esc = "escape"
 
 [search]
-/ = "search"
+"/" = "search"
 n = "search_next"
 N = "search_prev"
 

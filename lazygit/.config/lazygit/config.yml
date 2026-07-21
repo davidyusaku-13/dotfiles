@@ -22,13 +22,10 @@ gui:
       - "#cdd6f4"
     searchingActiveBorderColor:
       - "#a6e3a1"
-
   authorColors:
     "*": "#b4befe"
-
   nerdFontsVersion: "3"
-
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
