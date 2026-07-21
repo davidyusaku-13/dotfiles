@@ -1,3 +1,9 @@
+# History
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY APPEND_HISTORY INC_APPEND_HISTORY
+
 # Path to antidote
 source ~/.antidote/antidote.zsh
 autoload -Uz compinit && compinit
