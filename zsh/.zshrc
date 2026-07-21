@@ -3,6 +3,10 @@ source ~/.antidote/antidote.zsh
 autoload -Uz compinit && compinit
 antidote load "$HOME/.zsh_plugins.txt"
 
+# zsh-autosuggestions (must be after prompt)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#585b70"
+bindkey '^ ' autosuggest-accept
+
 # Starship prompt
 eval "$(starship init zsh)"
 
