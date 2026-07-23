@@ -284,6 +284,8 @@ vim.filetype.add({
         c3 = 'c3',
         d = 'd',
         templ = 'templ',
+        mq5 = 'cpp',
+        mqh = 'cpp',
     },
 })
 
