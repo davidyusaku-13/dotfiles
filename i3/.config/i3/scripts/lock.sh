@@ -1,6 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Catppuccin Mocha Colors (RRGGBBAA format for i3lock-color)
 BASE="1e1e2eff"
 TEXT="cdd6f4ff"
 MAUVE="cba6f7ff"
@@ -8,35 +7,47 @@ RED="f38ba8ff"
 GREEN="a6e3a1ff"
 TRANSPARENT="00000000"
 
-LOCK_ARGS="--color=$BASE"
-
-if [ -f "$HOME/.fehbg" ]; then
-    # Awk reliably grabs the string between the single quotes
+# Try to get current wallpaper from nitrogen config, fall back to fehbg, then default
+IMG=""
+if [ -f "$HOME/.config/nitrogen/bg-saved.cfg" ]; then
+    IMG=$(grep '^file=' "$HOME/.config/nitrogen/bg-saved.cfg" | head -1 | cut -d= -f2-)
+elif [ -f "$HOME/.fehbg" ]; then
     IMG=$(awk -F"'" '/feh/ {print $2}' "$HOME/.fehbg" | head -1)
-    
-    # Expand tilde (~) to full home path just in case
     IMG="${IMG/#\~/$HOME}"
-    
-    if [ -n "$IMG" ] && [ -f "$IMG" ]; then
-        # Fetch current screen resolution (fallback to 1920x1080 if it fails)
-        RES=$(xrandr | grep '\*' | awk '{print $1}' | head -n 1)
-        RES=${RES:-1920x1080}
-        
-        # Hash the image path + resolution to create a unique cache file
-        IMG_HASH=$(echo -n "$IMG$RES" | md5sum | awk '{print $1}')
-        CACHE_IMG="/tmp/i3lock_${IMG_HASH}.png"
-        
-        # If cache doesn't exist, use ImageMagick to perfectly scale/crop it once
-        if [ ! -f "$CACHE_IMG" ]; then
-            convert "$IMG" -resize "${RES}^" -gravity center -extent "${RES}" "$CACHE_IMG"
-        fi
-        
-        LOCK_ARGS="-i $CACHE_IMG"
+fi
+
+# Fallback to background in repository
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+if [ -z "$IMG" ] || [ ! -f "$IMG" ]; then
+    if [ -d "$DOTFILES_DIR/backgrounds" ]; then
+        IMG=$(find "$DOTFILES_DIR/backgrounds" -type f \( -name '*.jpg' -o -name '*.png' \) | head -1)
     fi
 fi
 
-# Execute i3lock-color with the image and Catppuccin styling
-i3lock $LOCK_ARGS \
+LOCK_ARGS=("--color=$BASE")
+
+if [ -n "$IMG" ] && [ -f "$IMG" ]; then
+    LOCK_ARGS=()
+    mtime=$(stat -c %Y "$IMG" 2>/dev/null || echo 0)
+    CONVERT_CMD="convert"
+    command -v magick >/dev/null 2>&1 && CONVERT_CMD="magick"
+
+    while IFS= read -r res; do
+        [ -z "$res" ] && continue
+        res_hash=$(echo -n "${IMG}_${mtime}_${res}" | md5sum | awk '{print $1}')
+        cache="/tmp/i3lock_${res_hash}.png"
+        if [ ! -f "$cache" ]; then
+            if command -v "$CONVERT_CMD" >/dev/null 2>&1; then
+                "$CONVERT_CMD" "$IMG" -resize "${res}^" -gravity center -extent "${res}" "$cache"
+            fi
+        fi
+        [ -f "$cache" ] && LOCK_ARGS+=("-i" "$cache")
+    done < <(xrandr | grep '\*' | awk '{print $1}')
+    [ ${#LOCK_ARGS[@]} -eq 0 ] && LOCK_ARGS=("--color=$BASE")
+fi
+
+exec i3lock "${LOCK_ARGS[@]}" \
     --nofork \
     --ignore-empty-password \
     --indicator \
