@@ -81,7 +81,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end
     end,
 })
-local caps = require("cmp_nvim_lsp").default_capabilities()
+local has_cmp_lsp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+local caps = has_cmp_lsp and cmp_nvim_lsp.default_capabilities() or vim.lsp.protocol.make_client_capabilities()
 vim.lsp.config['luals'] = {
     cmd = { 'lua-language-server' },
     filetypes = { 'lua' },
@@ -286,9 +287,13 @@ vim.filetype.add({
     },
 })
 
----@diagnostic disable-next-line: invisible
-for name, _ in pairs(vim.lsp.config._configs) do
-    if name ~= '*' then
+local configured_servers = {
+    'luals', 'cssls', 'phpls', 'ts_ls', 'zls', 'nil_ls', 'rust_analyzer',
+    'clangd', 'c3lsp', 'serve_d', 'jsonls', 'hls', 'gopls', 'templ',
+    'svelte', 'astro'
+}
+for _, name in ipairs(configured_servers) do
+    if vim.lsp.enable then
         vim.lsp.enable(name)
     end
 end

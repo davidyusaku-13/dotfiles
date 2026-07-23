@@ -1,7 +1,5 @@
-local cmp = require("cmp")
-require("cmp_nvim_lsp").setup()
-cmp.register_source("path", require("cmp_path").new())
-cmp.register_source("buffer", require("cmp_buffer"))
+local ok, cmp = pcall(require, "cmp")
+if not ok then return end
 
 cmp.setup({
     preselect = cmp.PreselectMode.Item,

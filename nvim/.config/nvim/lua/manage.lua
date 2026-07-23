@@ -19,11 +19,9 @@ local function ensure(spec)
         vim.fn.system(cmd)
     end
 
-    vim.opt.rtp:prepend(path)
-    vim.opt.rtp:append(path .. "/after")
-    local lua_path = path .. "/lua"
-    if vim.uv.fs_stat(lua_path) then
-        package.path = package.path .. ";" .. lua_path .. "/?.lua;" .. lua_path .. "/?/init.lua"
+    if vim.uv.fs_stat(path) then
+        vim.opt.rtp:prepend(path)
+        vim.opt.rtp:append(path .. "/after")
     end
 end
 
