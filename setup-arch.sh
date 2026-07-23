@@ -102,12 +102,12 @@ done
 # Execute stow on all directories (-R ensures it cleans up and restows safely on multiple runs)
 stow -R i3 nvim polybar picom rofi alacritty zsh x11 dunst lazygit bat gtk yazi btop nitrogen
 
-# Set initial wallpaper with nitrogen (creates bg-saved.cfg with correct paths)
-if command -v nitrogen &> /dev/null; then
+# Set initial wallpaper with nitrogen if X server is running
+if [ -n "$DISPLAY" ] && command -v nitrogen &> /dev/null; then
     DOTFILES_DIR="$(pwd)"
     BG_IMG="$DOTFILES_DIR/backgrounds/car-with-full-moon-background.jpg"
     if [ -f "$BG_IMG" ]; then
-        nitrogen --set-zoom-fill --save "$BG_IMG"
+        nitrogen --set-zoom-fill --save "$BG_IMG" || true
     fi
 fi
 
