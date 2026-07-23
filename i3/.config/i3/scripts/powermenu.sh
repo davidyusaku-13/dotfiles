@@ -1,6 +1,6 @@
 #!/bin/bash
 
-chosen=$(printf "  Power Off\n  Restart\n  Suspend\n  Lock\n  Logout" | rofi -dmenu -i -theme-str '@import "catppuccin-mocha.rasi"' -p "Power Menu")
+chosen=$(printf "  Power Off\n  Restart\n  Suspend\n  Lock\n  Logout" | rofi -dmenu -i -theme-str '@import "~/.config/rofi/catppuccin-mocha.rasi"' -p "Power Menu")
 
 case "$chosen" in
     "  Power Off") systemctl poweroff ;;
