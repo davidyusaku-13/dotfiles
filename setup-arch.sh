@@ -15,7 +15,7 @@ sudo pacman -S --needed --noconfirm \
   dex xss-lock network-manager-applet libpulse \
   brightnessctl zsh stow neovim ripgrep fd base-devel npm git curl imagemagick \
   lazygit bat btop thefuck \
-  dunst clipmenu playerctl udiskie
+  dunst clipmenu playerctl udiskie autorandr
 
 # 2. Check for yay and install AUR packages
 if ! command -v yay &> /dev/null; then
@@ -37,7 +37,7 @@ fi
 echo "-> Installing AUR packages..."
 yay -S --needed --noconfirm \
   ttf-meslo-nerd ttf-cascadia-code-nerd ttf-jetbrains-mono-nerd i3lock-color afetch \
-  catppuccin-gtk-theme-mocha yazi starship eza
+  catppuccin-gtk-theme-mocha yazi starship eza nitrogen
 
 # 3. Install antidote (Zsh plugin manager)
 echo "-> Installing antidote..."
@@ -56,8 +56,9 @@ sudo mkdir -p "$OVERRIDE_DIR"
 
 
 # Copy the template and use sed to inject the current username
+TARGET_USER="${SUDO_USER:-$USER}"
 sudo cp system/getty-override.conf "$OVERRIDE_DIR/override.conf"
-sudo sed -i "s/AUTOLOGIN_USER/$USER/g" "$OVERRIDE_DIR/override.conf"
+sudo sed -i "s/AUTOLOGIN_USER/$TARGET_USER/g" "$OVERRIDE_DIR/override.conf"
 sudo systemctl daemon-reload
 
 # Enable tap-to-click for touchpads
@@ -90,7 +91,7 @@ if [ -f "$HOME/.xinitrc" ] && [ ! -L "$HOME/.xinitrc" ]; then
   mv "$HOME/.xinitrc" "$HOME/.xinitrc.backup"
 fi
 # Back up existing .config folders so stow doesn't fail
-for app in i3 nvim polybar picom rofi alacritty lazygit bat gtk yazi btop; do
+for app in i3 nvim polybar picom rofi alacritty dunst lazygit bat gtk yazi btop nitrogen; do
   if [ -e "$HOME/.config/$app" ] && [ ! -L "$HOME/.config/$app" ]; then
     echo "Backing up existing ~/.config/$app to ~/.config/${app}.backup"
     mv "$HOME/.config/$app" "$HOME/.config/${app}.backup"
@@ -99,7 +100,16 @@ done
 
 
 # Execute stow on all directories (-R ensures it cleans up and restows safely on multiple runs)
-stow -R i3 nvim polybar picom rofi alacritty zsh x11 dunst lazygit bat gtk yazi btop
+stow -R i3 nvim polybar picom rofi alacritty zsh x11 dunst lazygit bat gtk yazi btop nitrogen
+
+# Set initial wallpaper with nitrogen (creates bg-saved.cfg with correct paths)
+if command -v nitrogen &> /dev/null; then
+    DOTFILES_DIR="$(pwd)"
+    BG_IMG="$DOTFILES_DIR/backgrounds/car-with-full-moon-background.jpg"
+    if [ -f "$BG_IMG" ]; then
+        nitrogen --set-zoom-fill --save "$BG_IMG"
+    fi
+fi
 
 # Rebuild bat cache for the new theme
 if command -v bat &> /dev/null; then
